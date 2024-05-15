@@ -108,6 +108,13 @@ async function run() {
             const result = await JobCollection.deleteOne(query)
             res.json(result);
         })
+        app.delete('/undo/:id', async (req, res) => { 
+            const id = req.params.id;
+            console.log(id)
+            const query = { _id: new ObjectId(id) }
+            const result = await ApplicationCollection.deleteOne(query)
+            res.json(result);
+        })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
