@@ -42,6 +42,12 @@ async function run() {
             const jobs = await JobCollection.find({"postedBy.email" : email}).toArray();
             res.send(jobs);
         })
+        app.get('/applied-jobs', async (req, res) => {
+            const email = req.query.email
+            const jobs = await ApplicationCollection.find({"applicantsData.applicantsEmail" : email}).toArray();
+            res.send(jobs);
+            console.log(jobs)
+        })
 
         // load single job for view details
         app.get('/job/:id',  async (req, res) => {
@@ -92,9 +98,6 @@ async function run() {
         app.patch('/applicants/:id', async (req, res) => { 
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
-            const options = {
-                upsert: true,
-            }
             const result = await JobCollection.updateOne(query, { $inc: { applicants: +1 } })
             res.json(result);
         })
