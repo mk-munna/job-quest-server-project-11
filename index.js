@@ -89,6 +89,15 @@ async function run() {
             const result = await JobCollection.updateOne(query, { $set: job }, options)
             res.json(result);
         })
+        app.patch('/applicants/:id', async (req, res) => { 
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const options = {
+                upsert: true,
+            }
+            const result = await JobCollection.updateOne(query, { $inc: { applicants: +1 } })
+            res.json(result);
+        })
         app.delete('/delete/:id', async (req, res) => { 
             const id = req.params.id;
             console.log(id)
